@@ -172,7 +172,7 @@ JS
                 }
                 if ($form->isEditing()) {
                     $name = GoodsUser::where('id', $form->model()->user_id)->value('username');
-                    $form->text('user_name')->value($name)->readOnly();
+                    $form->text('user_name', '所属用户')->value($name)->readOnly();
                 }
                 $form->multipleSelect('goods_id')->options(
                     function () {

@@ -178,7 +178,7 @@ class GoodsOrderController extends AdminController
             }
             if ($form->isEditing()) {
                 $form->hidden('user_id');
-                $form->text('username')->value(GoodsUser::whereId('user_id')->pluck('username'));
+                $form->text('username')->value(GoodsUser::whereId($form->model()->user_id)->value('username'));
                 $form->text('numbering');
                 $form->multipleSelect('goods_id')->options(
                     function () {
@@ -193,7 +193,11 @@ class GoodsOrderController extends AdminController
                 $form->text('num')->help('1.商品数量应和上面的商品对应<br>
                                                       2.用,号分隔');
                 $form->select('status')->options(admin_trans('goods-order.options.status'));
-                $form->text('courier_id');
+                $form->select('courier_id')->options(
+                    function () {
+                        return GoodsCourier::all()->pluck('name', 'id');
+                    }
+                );
             }
 
             $form->hidden('amount');
